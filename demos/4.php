@@ -1,11 +1,11 @@
-<?php
-function foo($var){
-   $a = $var; 
-   echo $a;
+<?php 
+class A{
+    public function foo($var){
+	$a = $var;
+        echo $a;
+    }
 }
 
-function bar(){
-    foo($_GET['id']);
-}
-bar();
+$obj = new A();
+$obj->foo($_GET['id']);
 ?>

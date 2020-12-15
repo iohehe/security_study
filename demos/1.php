@@ -1,3 +1,4 @@
 <?php
-echo $_GET['id'];
+$a = $_GET['id'];
+echo $a;
 ?>

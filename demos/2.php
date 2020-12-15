@@ -1,4 +1,7 @@
 <?php
-$a = $_GET['id'];
-echo $a;
+function foo($var){
+    $a = $var;
+    echo $a;
+}
+foo($_GET['id']);
 ?>

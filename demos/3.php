@@ -1,7 +1,11 @@
 <?php
 function foo($var){
-    $a = $var;
-    echo $a;
+   $a = $var; 
+   echo $a;
 }
-foo($_GET['id']);
+
+function bar(){
+    foo($_GET['id']);
+}
+bar();
 ?>
