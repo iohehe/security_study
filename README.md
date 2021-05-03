@@ -11,3 +11,7 @@
 [xssgame](https://github.com/sqlsec/xssgame)
 [xianzhi xss挑战赛](https://github.com/r00tuser111/xianzhi_xss)
 
+## Patchs
+- https://github.com/agentejo/cockpit/commit/74de99deed90976afd6fe620ae1d26b3e601a4bc
+
+- 
