@@ -1,17 +1,16 @@
 # XSS Collector
 
-## Blog
-* 文章介绍了浏览器解析context时三种解析器的工作原理。对编码的解析原理做了详细的介绍。
-[https://www.attacker-domain.com/2013/04/deep-dive-into-browser-parsing-and-xss.html](https://www.attacker-domain.com/2013/04/deep-dive-into-browser-parsing-and-xss.html)
+## Articles
+- [https://www.attacker-domain.com/2013/04/deep-dive-into-browser-parsing-and-xss.html](https://www.attacker-domain.com/2013/04/deep-dive-into-browser-parsing-and-xss.html)
 
-## Payload
-[https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onafterscriptexecute](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onafterscriptexecute)
+## Challenges
+- [xssgame](https://github.com/sqlsec/xssgame)
+- [xianzhi xss挑战赛](https://github.com/r00tuser111/xianzhi_xss)
 
-## Challenge
-[xssgame](https://github.com/sqlsec/xssgame)
-[xianzhi xss挑战赛](https://github.com/r00tuser111/xianzhi_xss)
+## Vulnerabilities
+### Stored XSS
+- CVE-2022-0612
+- CVE-2022-26332
+- CVE-2022-0970
+- CVE-2022-0967
 
-## Patchs
-- https://github.com/agentejo/cockpit/commit/74de99deed90976afd6fe620ae1d26b3e601a4bc
-
-- 
