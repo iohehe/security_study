@@ -1,0 +1,13 @@
+#+title: race condition
+#+author: iohex
+#+date: 2022-08-02
+
+* Race Condition
+
+** Using the turbo intruder to detect race condition
+
+/turbo intruder/ is a kind of burpsuite plugin which can send a large of HTTP requests and analyze the result.
+
+By using this plugin, we can find the race condition like the following demo:
+
+[[https://hackerone.com/reports/1566017][find race condition]]
