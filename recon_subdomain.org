@@ -1,0 +1,110 @@
+#+Title: Subdomain find in the racon period
+#+Author: iohex
+#+Date: 2022-08-13
+
+In fact, I am not sure that there has a clear period called recon
+(or any others) during the pentest work.
+Racon can be used in every time and every where to find more information about your target.
+
+* Sublist3r
+There are a lot of articles on the Internet to let you know how to find more
+subdomains. In this artcle, I want to describe it by analyze a famous subdomain
+scanner, [https://github.com/aboul3la/Sublist3r[Sublist3r]].
+
+This tool is written by python, and has for about 1000 lines.
+
+The below code shows some engines in this tool to find the subdomains:
+
+#+BEGIN_SRC python
+    supported_engines = {
+                       'baidu': BaiduEnum,
+                       'yahoo': YahooEnum,
+                       'google': GoogleEnum,
+                       'bing': BingEnum,
+                       'ask': AskEnum,
+                       'netcraft': NetcraftEnum,
+                       'dnsdumpster': DNSdumpster,
+                       'virustotal': Virustotal,
+                       'threatcrowd': ThreatCrowd,
+                       'ssl': CrtSearch,
+                       'passivedns': PassiveDNS
+                       }
+
+  chosenEnums = []
+#+END_SRC
+
+As it shown there are 11 engines in these tools, every engine can be used to
+obtain subdomains indenpendantly.
+
+
+** Search Engine
+
+The search website including baidu, yahoo, google, bing, ask, which are some well-known
+common used Internet search engines.
+
+Let's use bing as an instance, every engine is an unique class in the tool:
+
+#+BEGIN_SRC python
+ class BingEnum(enumratorBaseThreaded):
+    def __init__(self, domain, subdomains=None, q=None, silent=False, verbose=True):
+        subdomains = subdomains or []
+        base_url = 'https://www.bing.com/search?q={query}&go=Submit&first={page_no}'
+        self.engine_name = "Bing"
+        self.MAX_DOMAINS = 30
+        self.MAX_PAGES = 0
+        enumratorBaseThreaded.__init__(self, base_url, self.engine_name, domain, subdomains, q=q, silent=silent)
+        self.q = q
+        self.verbose = verbose
+        return
+
+    def extract_domains(self, resp):
+        links_list = list()
+        link_regx = re.compile('<li class="b_algo"><h2><a href="(.*?)"')
+        link_regx2 = re.compile('<div class="b_title"><h2><a href="(.*?)"')
+        try:
+            links = link_regx.findall(resp)
+            links2 = link_regx2.findall(resp)
+            links_list = links + links2
+
+            for link in links_list:
+                link = re.sub('<(\/)?strong>|<span.*?>|<|>', '', link)
+                if not link.startswith('http'):
+                    link = "http://" + link
+                subdomain = urlparse.urlparse(link).netloc
+                if subdomain not in self.subdomains and subdomain != self.domain:
+                    if self.verbose:
+                        self.print_("%s%s: %s%s" % (R, self.engine_name, W, subdomain))
+                    self.subdomains.append(subdomain.strip())
+        except Exception:
+            pass
+
+        return links_list
+
+    def generate_query(self):
+        if self.subdomains:
+            fmt = 'domain:{domain} -www.{domain} -{found}'
+            found = ' -'.join(self.subdomains[:self.MAX_DOMAINS])
+            query = fmt.format(domain=self.domain, found=found)
+        else:
+            query = "domain:{domain} -www.{domain}".format(domain=self.domain)
+        return query
+#+END_SRC
+
+The key parameter is the base_url. It's a model for the search engine. You can change the query and page number in here.
+
+In the parents class, you can find the final query url, which combines by the base_url and generate_query():
+
+
+#+BEGIN_SRC python
+     def send_req(self, query, page_no=1):
+
+        url = self.base_url.format(query=query, page_no=page_no)
+        try:
+            resp = self.session.get(url, headers=self.headers, timeout=self.timeout)
+        except Exception:
+            resp = None
+        return self.get_response(resp) 
+#+END_SRC
+
+Whe we get the response contents, we can use the extract_domains to prase the contents and obtain the
+subdomains.
