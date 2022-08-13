@@ -1,4 +1,4 @@
-#+Title: Subdomain find in the racon period
+#+Title: Subdomain finding during the racon period
 #+Author: iohex
 #+Date: 2022-08-13
 
